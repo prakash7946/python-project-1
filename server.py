@@ -26,7 +26,7 @@ CORS(app)  # Allow cross-origin requests from the frontend
 # ==================== EMAIL CONFIG ====================
 # Using Gmail SMTP — Update these with your Gmail credentials
 SENDER_EMAIL    = "april86shop@gmail.com"           # Your Gmail address
-SENDER_PASSWORD = "YOUR_APP_PASSWORD_HERE"          # Gmail App Password (see README)
+SENDER_PASSWORD = "lgha qlyf swss maoz"             # Gmail App Password
 RECEIVER_EMAIL  = "april86shop@gmail.com"           # Where order emails go
 
 # ==================== SERVE FRONTEND ====================
