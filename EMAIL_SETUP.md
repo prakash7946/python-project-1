@@ -49,7 +49,7 @@ You should see:
   ✦ ELEGANCE DRESS STORE — Backend Server
 ==================================================
   🌐 Open: http://localhost:5000
-  📧 Email: prakashsiva2004429@gmail.com
+  📧 Email: april86shop@gmail.com
 ==================================================
 ```
 
@@ -75,7 +75,7 @@ Flask server receives the order details
         ↓
 Python sends a beautiful HTML email via Gmail SMTP
         ↓
-Email arrives in prakashsiva2004429@gmail.com inbox 📬
+Email arrives in april86shop@gmail.com inbox 📬
 ```
 
 ---
