@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elegance – Premium Dress Collection</title>
+  <meta name="description" content="Shop the latest and most elegant dress collection at Elegance. From floral summer dresses to stunning evening gowns, find your perfect style." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ==================== HEADER / NAVBAR ==================== -->
+  <header class="header" id="header">
+    <nav class="navbar">
+      <!-- Logo -->
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Elegance</span>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#products" class="nav-link">Collection</a></li>
+        <li><a href="#" class="nav-link">New Arrivals</a></li>
+        <li><a href="#" class="nav-link">Sale</a></li>
+        <li><a href="#" class="nav-link">About</a></li>
+      </ul>
+
+      <!-- Right side icons -->
+      <div class="nav-actions">
+        <!-- Search Toggle -->
+        <button class="icon-btn" id="searchToggle" aria-label="Search" title="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <!-- Wishlist -->
+        <button class="icon-btn" aria-label="Wishlist" title="Wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <!-- Cart -->
+        <button class="icon-btn cart-btn" id="cartToggle" aria-label="Cart" title="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <!-- Hamburger (Mobile) -->
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Search Bar (expandable) -->
+    <div class="search-bar-wrapper" id="searchBarWrapper">
+      <div class="search-bar-inner">
+        <input type="text" id="searchInput" placeholder="Search for dresses, styles, colors..." class="search-input" />
+        <button class="search-btn" id="searchBtn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <button class="search-close" id="searchClose" aria-label="Close search">✕</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <img src="images/hero_banner.png" alt="Elegance New Collection 2025" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-tag">New Collection · Spring 2025</p>
+      <h1 class="hero-title">Dress to <br /><span class="hero-highlight">Impress</span></h1>
+      <p class="hero-subtitle">Discover curated fashion that speaks your story. From floral elegance to evening glamour.</p>
+      <div class="hero-cta">
+        <a href="#products" class="btn btn-primary">Shop Now</a>
+        <a href="#products" class="btn btn-outline">View Collection</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Styles</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">50k+</span><span class="stat-label">Happy Customers</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">Rating</span></div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </section>
+
+  <!-- ==================== PROMO RIBBON ==================== -->
+  <div class="promo-ribbon">
+    <div class="promo-track">
+      <span>✦ Free Shipping on orders above ₹999</span>
+      <span>✦ New Arrivals Every Week</span>
+      <span>✦ Easy Returns within 30 Days</span>
+      <span>✦ Exclusive Members Discount</span>
+      <span>✦ Free Shipping on orders above ₹999</span>
+      <span>✦ New Arrivals Every Week</span>
+      <span>✦ Easy Returns within 30 Days</span>
+      <span>✦ Exclusive Members Discount</span>
+    </div>
+  </div>
+
+  <!-- ==================== FEATURED CATEGORIES ==================== -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Browse by Occasion</p>
+        <h2 class="section-title">Shop by Style</h2>
+      </div>
+      <div class="categories-grid">
+        <div class="category-card" data-filter="casual">
+          <div class="cat-icon">🌸</div>
+          <h3>Casual</h3>
+          <p>Everyday comfort</p>
+        </div>
+        <div class="category-card" data-filter="evening">
+          <div class="cat-icon">🌙</div>
+          <h3>Evening</h3>
+          <p>Bold & glamorous</p>
+        </div>
+        <div class="category-card" data-filter="party">
+          <div class="cat-icon">🎉</div>
+          <h3>Party</h3>
+          <p>Stand out always</p>
+        </div>
+        <div class="category-card" data-filter="bridal">
+          <div class="cat-icon">💍</div>
+          <h3>Bridal</h3>
+          <p>Your special day</p>
+        </div>
+        <div class="category-card" data-filter="summer">
+          <div class="cat-icon">☀️</div>
+          <h3>Summer</h3>
+          <p>Light & breezy</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRODUCTS SECTION ==================== -->
+  <section class="products-section" id="products">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="section-header">
+        <p class="section-tag">Handpicked For You</p>
+        <h2 class="section-title">Our Collection</h2>
+        <p class="section-desc">Every dress tells a story. Find yours.</p>
+      </div>
+
+      <!-- Filters & Sort -->
+      <div class="filters-bar">
+        <div class="filter-group">
+          <label class="filter-label">Filter by Size:</label>
+          <div class="size-filter-btns">
+            <button class="size-filter-btn active" data-size="all" id="filter-all">All</button>
+            <button class="size-filter-btn" data-size="L" id="filter-L">L</button>
+            <button class="size-filter-btn" data-size="XL" id="filter-XL">XL</button>
+            <button class="size-filter-btn" data-size="XXL" id="filter-XXL">XXL</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="sortSelect">Sort by:</label>
+          <select class="sort-select" id="sortSelect">
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+        <div class="results-count">
+          <span id="resultsCount">8 dresses found</span>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Products injected by JS -->
+      </div>
+
+      <!-- No results -->
+      <div class="no-results" id="noResults" style="display:none;">
+        <div class="no-results-icon">🔍</div>
+        <h3>No dresses found</h3>
+        <p>Try a different search term or clear the filters.</p>
+        <button class="btn btn-primary" onclick="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BANNER / PROMO ==================== -->
+  <section class="mid-banner">
+    <div class="mid-banner-content">
+      <p class="mid-banner-tag">Limited Time Offer</p>
+      <h2 class="mid-banner-title">Up to 40% Off</h2>
+      <p class="mid-banner-sub">On selected evening gowns & party wear. Hurry, stocks are limited!</p>
+      <a href="#products" class="btn btn-light">Shop Sale</a>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">What Our Customers Say</p>
+        <h2 class="section-title">Loved by Thousands</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"The floral maxi dress I ordered is absolutely stunning! The fabric quality is incredible and it fits perfectly. Will definitely order again!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">P</div>
+            <div>
+              <div class="author-name">Priya Sharma</div>
+              <div class="author-loc">Mumbai</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Fast delivery and beautiful packaging! The red evening gown looked even better in person. Received so many compliments at the party!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div>
+              <div class="author-name">Anusha Reddy</div>
+              <div class="author-loc">Hyderabad</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★☆</div>
+          <p class="testimonial-text">"Great variety and affordable prices compared to other stores. The blue midi dress is my new favourite! Customer service was very helpful too."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">S</div>
+            <div>
+              <div class="author-name">Sunita Patel</div>
+              <div class="author-loc">Bangalore</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CART SIDEBAR ==================== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Your Cart <span class="cart-item-count" id="cartItemCount">(0 items)</span></h2>
+      <button class="cart-close-btn" id="cartClose" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <!-- Cart items injected by JS -->
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">🛍️</div>
+        <p>Your cart is empty</p>
+        <a href="#products" class="btn btn-primary" id="startShoppingBtn">Start Shopping</a>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-subtotal">
+        <span>Subtotal</span><span id="cartSubtotal">₹0</span>
+      </div>
+      <div class="cart-shipping">
+        <span>Shipping</span><span id="cartShipping">FREE</span>
+      </div>
+      <div class="cart-total">
+        <span>Total</span><span id="cartTotal">₹0</span>
+      </div>
+      <button class="btn btn-primary btn-full" id="checkoutBtn">Proceed to Checkout →</button>
+      <button class="btn btn-ghost btn-full" id="clearCartBtn">Clear Cart</button>
+    </div>
+  </aside>
+
+  <!-- ==================== CHECKOUT MODAL ==================== -->
+  <div class="modal-overlay" id="checkoutOverlay">
+    <div class="modal checkout-modal" id="checkoutModal">
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step active" id="step1-dot"><span>1</span><small>Details</small></div>
+        <div class="step-line"></div>
+        <div class="step" id="step2-dot"><span>2</span><small>Payment</small></div>
+        <div class="step-line"></div>
+        <div class="step" id="step3-dot"><span>3</span><small>Confirm</small></div>
+      </div>
+
+      <!-- STEP 1: Delivery Details -->
+      <div class="modal-step active" id="checkoutStep1">
+        <button class="modal-close" id="checkoutClose">✕</button>
+        <h2 class="modal-title">Delivery Details</h2>
+        <form class="checkout-form" id="checkoutForm" novalidate>
+          <div class="form-group">
+            <label for="custName">Full Name *</label>
+            <input type="text" id="custName" placeholder="Enter your full name" required />
+            <span class="form-error" id="nameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="custPhone">Phone Number *</label>
+            <input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX" required />
+            <span class="form-error" id="phoneError"></span>
+          </div>
+          <div class="form-group">
+            <label for="custEmail">Email Address *</label>
+            <input type="email" id="custEmail" placeholder="your@email.com" required />
+            <span class="form-error" id="emailError"></span>
+          </div>
+          <div class="form-group">
+            <label for="custAddress">Delivery Address *</label>
+            <textarea id="custAddress" placeholder="House No, Street, Area, City, State, PIN" rows="3" required></textarea>
+            <span class="form-error" id="addressError"></span>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="custCity">City *</label>
+              <input type="text" id="custCity" placeholder="City" required />
+            </div>
+            <div class="form-group">
+              <label for="custPin">PIN Code *</label>
+              <input type="text" id="custPin" placeholder="6-digit PIN" maxlength="6" required />
+            </div>
+          </div>
+        </form>
+        <div class="modal-actions">
+          <button class="btn btn-outline" id="cancelCheckout">Cancel</button>
+          <button class="btn btn-primary" id="goToPayment">Continue to Payment →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Payment -->
+      <div class="modal-step" id="checkoutStep2">
+        <button class="modal-close" id="paymentClose">✕</button>
+        <h2 class="modal-title">Payment Method</h2>
+        <div class="payment-options">
+          <div class="payment-option selected" id="payPhoneOption">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">📱</div>
+            <div class="payment-info">
+              <div class="payment-name">Pay via Phone Number</div>
+              <div class="payment-num">9344709406</div>
+              <div class="payment-note">Send payment to this number via GPay / PhonePe / Paytm</div>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">💳</div>
+            <div class="payment-info">
+              <div class="payment-name">Cash on Delivery</div>
+              <div class="payment-note">Pay when your order arrives</div>
+            </div>
+          </div>
+        </div>
+        <div class="order-summary-mini" id="orderSummaryMini">
+          <!-- Injected by JS -->
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-outline" id="backToDetails">← Back</button>
+          <button class="btn btn-primary" id="placeOrderBtn">
+            <span id="placeOrderText">Place Order 🎉</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Confirmation -->
+      <div class="modal-step" id="checkoutStep3">
+        <div class="confirmation-wrapper">
+          <div class="confetti-container" id="confettiContainer"></div>
+          <div class="success-icon">✅</div>
+          <h2 class="confirm-title">Order Placed Successfully!</h2>
+          <p class="confirm-sub">Thank you for shopping with <strong>Elegance</strong>! 🎉</p>
+          <div class="order-id-box">
+            <span>Order ID:</span>
+            <strong id="orderId"></strong>
+          </div>
+          <div class="confirm-details" id="confirmDetails">
+            <!-- Injected by JS -->
+          </div>
+          <div class="email-notice">
+            <span class="email-icon">📧</span>
+            <span>Order confirmation sent to <strong id="confirmEmail"></strong></span>
+          </div>
+          <div class="summary-table-wrapper">
+            <h3>Order Summary</h3>
+            <table class="summary-table" id="summaryTable">
+              <!-- Injected by JS -->
+            </table>
+          </div>
+          <button class="btn btn-primary btn-full" id="continueShopping">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-icon">✦</span>
+            <span class="logo-text">Elegance</span>
+          </div>
+          <p class="footer-tagline">Dress beautifully, live confidently. Premium fashion for every occasion.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Instagram">📸</a>
+            <a href="#" class="social-link" aria-label="Facebook">📘</a>
+            <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-link" aria-label="Pinterest">📌</a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Collection</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Track Order</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>📞 +91 93447 09406</p>
+          <p>📧 prakashsiva2004429@gmail.com</p>
+          <p>📍 Chennai, Tamil Nadu, India</p>
+          <div class="footer-badges">
+            <span class="badge">🔒 Secure Payments</span>
+            <span class="badge">🚚 Fast Delivery</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Elegance. All rights reserved. Made with ❤️ in India.</p>
+        <p>
+          <a href="#">Privacy Policy</a> &nbsp;|&nbsp;
+          <a href="#">Terms of Service</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ==================== BACK TO TOP ==================== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
