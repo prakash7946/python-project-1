@@ -1,4 +1,4 @@
-# 📧 Email Setup Guide — Elegance Dress Store
+# 📧 Email Setup Guide — april-86 Dress Store
 
 ## Step 1: Get Your Gmail App Password
 
@@ -18,9 +18,9 @@ Google requires an **App Password** (not your regular Gmail password) for sendin
 
 ---
 
-## Step 2: Add the App Password to server.py
+## Step 2: Add the App Password to app.py
 
-Open `server.py` and update line 20:
+Open `app.py` and update line 20:
 
 ```python
 SENDER_PASSWORD = "YOUR_APP_PASSWORD_HERE"
@@ -40,7 +40,7 @@ SENDER_PASSWORD = "abcdabcdabcdabcd"
 Open a terminal in `D:\python project 1\` and run:
 
 ```bash
-python server.py
+python app.py
 ```
 
 You should see:
@@ -84,7 +84,7 @@ Email arrives in april86shop@gmail.com inbox 📬
 
 | Problem | Solution |
 |---------|----------|
-| "Authentication failed" | Check your App Password is correct in server.py |
-| "Connection refused" | Make sure `python server.py` is running |
+| "Authentication failed" | Check your App Password is correct in app.py |
+| "Connection refused" | Make sure `python app.py` is running |
 | "Less secure app" error | Use App Password, NOT your Gmail password |
 | Email goes to spam | Add the sender to your contacts |

@@ -10,7 +10,7 @@
    - Scroll effects
    ============================================ */
 
-/* Flask backend URL — matches server.py */
+/* Flask backend URL — matches app.py */
 const API_BASE = 'http://localhost:5000';
 
 'use strict';
@@ -128,6 +128,62 @@ const PRODUCTS = [
     badge: "new",
     category: "bridal",
     description: "Breathtaking white lace maxi dress for your most special day."
+  },
+  {
+    id: 9,
+    name: "Urban White Graphic Tee",
+    price: 799,
+    originalPrice: 1299,
+    discount: 38,
+    image: "images/tshirt_1.png",
+    rating: 4.6,
+    reviewCount: 185,
+    sizes: ["L", "XL", "XXL"],
+    badge: "new",
+    category: "tshirt",
+    description: "Clean white graphic tee with a modern print — perfect for everyday casual wear."
+  },
+  {
+    id: 10,
+    name: "Noir Oversized Tee",
+    price: 899,
+    originalPrice: 1499,
+    discount: 40,
+    image: "images/tshirt_2.png",
+    rating: 4.8,
+    reviewCount: 231,
+    sizes: ["L", "XL", "XXL"],
+    badge: "hot",
+    category: "tshirt",
+    description: "Chic black oversized t-shirt — effortlessly stylish for any relaxed occasion."
+  },
+  {
+    id: 11,
+    name: "Blush Pink Crop Tee",
+    price: 699,
+    originalPrice: 1099,
+    discount: 36,
+    image: "images/tshirt_3.png",
+    rating: 4.7,
+    reviewCount: 142,
+    sizes: ["L", "XL"],
+    badge: "new",
+    category: "tshirt",
+    description: "Trendy pastel pink crop t-shirt — cute, comfortable and Instagram-ready."
+  },
+  {
+    id: 12,
+    name: "Classic Navy Stripe Tee",
+    price: 749,
+    originalPrice: 1199,
+    discount: 38,
+    image: "images/tshirt_4.png",
+    rating: 4.5,
+    reviewCount: 98,
+    sizes: ["L", "XL", "XXL"],
+    badge: "sale",
+    category: "tshirt",
+    description: "Timeless navy striped t-shirt — a wardrobe essential for a polished casual look."
   }
 ];
 
@@ -563,6 +619,66 @@ function launchConfetti() {
 }
 
 /**
+ * Build a WhatsApp message text for the owner with full order details.
+ */
+function buildWhatsAppMessage(orderData) {
+  const { orderId, date, customer, items, subtotal, shipping, total } = orderData;
+  const itemLines = items.map(item =>
+    `  • ${item.name} (Size: ${item.size}) x${item.qty} = ${formatPrice(item.price * item.qty)}`
+  ).join('%0A');
+
+  const msg =
+    `🛍️ *NEW ORDER — april-86*%0A` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━%0A` +
+    `📦 *Order ID:* ${orderId}%0A` +
+    `📅 *Date:* ${date}%0A%0A` +
+    `👤 *Customer Details*%0A` +
+    `Name: ${customer.name}%0A` +
+    `Phone: ${customer.phone}%0A` +
+    `Email: ${customer.email}%0A` +
+    `Address: ${customer.address}, ${customer.city} - ${customer.pin}%0A%0A` +
+    `🛒 *Items Ordered*%0A` +
+    `${itemLines}%0A%0A` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━%0A` +
+    `Subtotal: ${formatPrice(subtotal)}%0A` +
+    `Shipping: ${shipping === 0 ? 'FREE 🎉' : formatPrice(shipping)}%0A` +
+    `*TOTAL: ${formatPrice(total)}*%0A%0A` +
+    `💳 Payment via GPay/PhonePe/Paytm to 9344709406%0A` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━`;
+  return msg;
+}
+
+/**
+ * Open WhatsApp with pre-filled order message to the owner.
+ * Uses wa.me link — works on mobile (opens app) and desktop (opens WhatsApp Web).
+ */
+function notifyOwnerWhatsApp(orderData) {
+  const OWNER_PHONE = '919344709406'; // India +91
+  const message = buildWhatsAppMessage(orderData);
+  const url = `https://wa.me/${OWNER_PHONE}?text=${message}`;
+  window.open(url, '_blank');
+}
+
+/**
+ * Send WhatsApp directly to owner via Flask backend (CallMeBot API).
+ * Returns true if sent successfully, false otherwise.
+ */
+async function sendWhatsAppBackend(orderData) {
+  try {
+    const response = await fetch(`${API_BASE}/send-whatsapp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    });
+    const result = await response.json();
+    return result.success === true;
+  } catch (err) {
+    console.warn('WhatsApp backend notification failed:', err.message);
+    return false;
+  }
+}
+
+/**
  * Send real order confirmation email via Flask backend.
  * Calls POST /send-order-email with the full order payload.
  * Returns a Promise that resolves when done.
@@ -626,6 +742,10 @@ async function placeOrder() {
   btn.querySelector('#placeOrderText').textContent = '📧 Sending email...';
   const emailSent = await sendOrderEmail(orderData);
 
+  // --- Send WhatsApp DIRECTLY to owner via CallMeBot (no popup, no user action needed) ---
+  btn.querySelector('#placeOrderText').textContent = '📲 Sending WhatsApp to owner...';
+  const waSent = await sendWhatsAppBackend(orderData);
+
   // --- Show confirmation screen regardless ---
   showStep(3);
   document.getElementById('orderId').textContent = orderId;
@@ -640,12 +760,12 @@ async function placeOrder() {
     <p>💳 Pay via Phone: <strong>9344709406</strong></p>
   `;
 
-  // Summary table
+  // Summary table (with product image thumbnails)
   const table = document.getElementById('summaryTable');
   table.innerHTML = `
     <thead>
       <tr>
-        <th>Product</th>
+        <th colspan="2">Product</th>
         <th>Size</th>
         <th>Qty</th>
         <th>Amount</th>
@@ -654,18 +774,22 @@ async function placeOrder() {
     <tbody>
       ${orderData.items.map(item => `
         <tr>
-          <td>${item.name}</td>
+          <td style="width:54px;padding:8px 6px;">
+            <img src="${item.image}" alt="${item.name}"
+              style="width:46px;height:54px;object-fit:cover;border-radius:6px;display:block;">
+          </td>
+          <td style="font-weight:600;font-size:13px;">${item.name}</td>
           <td>${item.size}</td>
           <td>${item.qty}</td>
           <td>${formatPrice(item.price * item.qty)}</td>
         </tr>
       `).join('')}
       <tr>
-        <td colspan="3">Shipping</td>
+        <td colspan="4">Shipping</td>
         <td>${shipping === 0 ? 'FREE 🎉' : formatPrice(shipping)}</td>
       </tr>
       <tr>
-        <td colspan="3"><strong>Grand Total</strong></td>
+        <td colspan="4"><strong>Grand Total</strong></td>
         <td><strong>${formatPrice(total)}</strong></td>
       </tr>
     </tbody>
@@ -683,7 +807,32 @@ async function placeOrder() {
       emailNotice.style.background = 'rgba(255,193,7,0.1)';
       emailNotice.style.borderColor = 'rgba(255,193,7,0.4)';
       emailNotice.style.color = '#856404';
-      emailNotice.innerHTML = `<span class="email-icon">⚠️</span><span>Email server offline. Start <code>server.py</code> to enable emails.</span>`;
+      emailNotice.innerHTML = `<span class="email-icon">⚠️</span><span>Email server offline. Start <code>app.py</code> to enable emails.</span>`;
+    }
+  }
+
+  // Wire up the manual WhatsApp button (fallback if auto-send failed)
+  const waBtn = document.getElementById('manualWhatsappBtn');
+  if (waBtn) {
+    const waMsg = buildWhatsAppMessage(orderData);
+    waBtn.href = `https://wa.me/919344709406?text=${waMsg}`;
+    // Show manual button only if direct send failed
+    waBtn.style.display = waSent ? 'none' : 'flex';
+  }
+
+  // Update WhatsApp notice
+  const waNotice = document.getElementById('whatsappNotice');
+  if (waNotice) {
+    if (waSent) {
+      waNotice.style.background = 'rgba(37,211,102,0.1)';
+      waNotice.style.borderColor = 'rgba(37,211,102,0.4)';
+      waNotice.style.color = '#0b6e4f';
+      waNotice.innerHTML = `<span class="email-icon">📲</span><span>Order details sent directly to owner on <strong>WhatsApp</strong> ✅</span>`;
+    } else {
+      waNotice.style.background = 'rgba(255,193,7,0.1)';
+      waNotice.style.borderColor = 'rgba(255,193,7,0.4)';
+      waNotice.style.color = '#856404';
+      waNotice.innerHTML = `<span class="email-icon">⚠️</span><span>Auto WhatsApp needs setup. Use the button below to send manually.</span>`;
     }
   }
 
@@ -691,7 +840,7 @@ async function placeOrder() {
   if (emailSent) {
     showToast('📧 Order email sent to your inbox!', 'success', 4000);
   } else {
-    showToast('⚠️ Order saved! Run server.py to enable emails.', 'info', 5000);
+    showToast('⚠️ Order saved! Run app.py to enable emails.', 'info', 5000);
   }
 
   // Clear cart
@@ -721,6 +870,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial render
   renderProducts();
   updateCartUI();
+
+  // --- Check WhatsApp (CallMeBot) status & show setup banner if not configured ---
+  fetch(`${API_BASE}/whatsapp-status`)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.configured) {
+        const banner = document.createElement('div');
+        banner.id = 'waBanner';
+        banner.innerHTML = `
+          <div style="background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:14px 24px;
+            display:flex;align-items:center;justify-content:space-between;gap:16px;
+            font-family:var(--font-body);font-size:0.88rem;flex-wrap:wrap;position:relative;z-index:999;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:1.5rem;">📲</span>
+              <div>
+                <strong style="display:block;font-size:0.95rem;margin-bottom:2px;">WhatsApp Direct Notification — Setup Required (Once)</strong>
+                <span style="opacity:0.9;">
+                  1. Save <strong>+34 644 59 78 11</strong> as <em>"CallMeBot"</em> in your WhatsApp &nbsp;|&nbsp;
+                  2. Send: <strong>"I allow callmebot to send me messages"</strong> &nbsp;|&nbsp;
+                  3. Paste the API key into <code style="background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;">app.py → CALLMEBOT_APIKEY</code> &nbsp;|&nbsp;
+                  4. Restart app.py
+                </span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('waBanner').remove()"
+              style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;
+              padding:6px 14px;border-radius:50px;cursor:pointer;font-size:0.8rem;white-space:nowrap;
+              font-family:var(--font-body);flex-shrink:0;">
+              Dismiss
+            </button>
+          </div>`;
+        // Insert before the products section
+        const productsSection = document.getElementById('products');
+        if (productsSection) productsSection.before(banner);
+      }
+    })
+    .catch(() => {}); // silently skip if server is offline
 
   // --- Navbar scroll active link ---
   const sections = document.querySelectorAll('section[id]');
