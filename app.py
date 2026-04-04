@@ -21,6 +21,9 @@ from email.mime.text import MIMEText
 import json
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, static_folder='.')
 CORS(app)  # Allow cross-origin requests from the frontend
@@ -28,7 +31,7 @@ CORS(app)  # Allow cross-origin requests from the frontend
 # ==================== EMAIL CONFIG ====================
 # Using Gmail SMTP — Update these with your Gmail credentials
 SENDER_EMAIL    = "april86shop@gmail.com"           # Your Gmail address
-SENDER_PASSWORD = "lgha qlyf swss maoz"             # Gmail App Password
+SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD", "YOUR_APP_PASSWORD_HERE") # Gmail App Password
 RECEIVER_EMAIL  = "april86shop@gmail.com"           # Where order emails go
 
 # ==================== SERVE FRONTEND ====================

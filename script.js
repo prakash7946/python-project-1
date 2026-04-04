@@ -10,8 +10,8 @@
    - Scroll effects
    ============================================ */
 
-/* Flask backend URL — matches app.py */
-const API_BASE = 'http://localhost:5000';
+/* Flask backend URL — dynamic for production and local */
+const API_BASE = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : '';
 
 'use strict';
 

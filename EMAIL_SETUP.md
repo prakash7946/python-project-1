@@ -20,11 +20,13 @@ Google requires an **App Password** (not your regular Gmail password) for sendin
 
 ## Step 2: Add the App Password to app.py
 
-Open `app.py` and update line 20:
+Open `.env` (create the file if it doesn't exist) and set your App Password:
 
-```python
-SENDER_PASSWORD = "YOUR_APP_PASSWORD_HERE"
+```env
+SENDER_PASSWORD="YOUR_APP_PASSWORD_HERE"
 ```
+
+Then in `app.py` this will be loaded automatically via `dotenv`.
 
 Replace `YOUR_APP_PASSWORD_HERE` with your 16-character App Password.
 
