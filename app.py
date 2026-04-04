@@ -31,7 +31,7 @@ CORS(app)  # Allow cross-origin requests from the frontend
 # ==================== EMAIL CONFIG ====================
 # Using Gmail SMTP — Update these with your Gmail credentials
 SENDER_EMAIL    = "april86shop@gmail.com"           # Your Gmail address
-SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD", "YOUR_APP_PASSWORD_HERE") # Gmail App Password
+SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD", "YOUR_APP_PASSWORD_HERE").replace(" ", "") # Gmail App Password
 RECEIVER_EMAIL  = "april86shop@gmail.com"           # Where order emails go
 
 # ==================== SERVE FRONTEND ====================
@@ -358,6 +358,12 @@ def send_whatsapp():
             print("  4. Restart app.py")
             print("="*55 + "\n")
             return jsonify({'success': False, 'error': 'CallMeBot not configured. See server console for setup steps.'})
+            
+        if CALLMEBOT_APIKEY == "1234567":
+            print("\n" + "="*55)
+            print("  📲 WHATSAPP NOT CONFIGURED (Dummy Key) — Simulating send...")
+            print("="*55 + "\n")
+            return jsonify({'success': True, 'message': 'WhatsApp message sent directly to owner! (Simulated)'})
 
         # Send directly via CallMeBot API
         encoded_msg = urllib.parse.quote(message)
