@@ -619,32 +619,36 @@ function launchConfetti() {
 }
 
 /**
- * Build a WhatsApp message text for the owner with full order details.
+ * Build a WhatsApp message text for the owner with full order details + image links.
  */
 function buildWhatsAppMessage(orderData) {
   const { orderId, date, customer, items, subtotal, shipping, total } = orderData;
-  const itemLines = items.map(item =>
-    `  • ${item.name} (Size: ${item.size}) x${item.qty} = ${formatPrice(item.price * item.qty)}`
-  ).join('%0A');
+  const baseUrl = window.location.origin;
+
+  const itemLines = items.map(item => {
+    const imgUrl = item.image ? `${baseUrl}/${item.image.replace(/^\//, '')}` : '';
+    let line = `  \u2022 ${item.name} (Size: ${item.size}) x${item.qty} = ${formatPrice(item.price * item.qty)}`;
+    if (imgUrl) line += `%0A    \ud83d\udcf7 Image: ${encodeURIComponent(imgUrl)}`;
+    return line;
+  }).join('%0A');
 
   const msg =
-    `🛍️ *NEW ORDER — april-86*%0A` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━%0A` +
-    `📦 *Order ID:* ${orderId}%0A` +
-    `📅 *Date:* ${date}%0A%0A` +
-    `👤 *Customer Details*%0A` +
+    `\ud83d\udecd\ufe0f *NEW ORDER \u2014 april-86*%0A` +
+    `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501%0A` +
+    `\ud83d\udce6 *Order ID:* ${orderId}%0A` +
+    `\ud83d\udcc5 *Date:* ${date}%0A%0A` +
+    `\ud83d\udc64 *Customer Details*%0A` +
     `Name: ${customer.name}%0A` +
     `Phone: ${customer.phone}%0A` +
-    `Email: ${customer.email}%0A` +
     `Address: ${customer.address}, ${customer.city} - ${customer.pin}%0A%0A` +
-    `🛒 *Items Ordered*%0A` +
+    `\ud83d\uded2 *Items Ordered*%0A` +
     `${itemLines}%0A%0A` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━%0A` +
+    `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501%0A` +
     `Subtotal: ${formatPrice(subtotal)}%0A` +
-    `Shipping: ${shipping === 0 ? 'FREE 🎉' : formatPrice(shipping)}%0A` +
+    `Shipping: ${shipping === 0 ? 'FREE \ud83c\udf89' : formatPrice(shipping)}%0A` +
     `*TOTAL: ${formatPrice(total)}*%0A%0A` +
-    `💳 Payment via GPay/PhonePe/Paytm to 9344709406%0A` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━`;
+    `\ud83d\udcb3 Payment via GPay/PhonePe/Paytm to 9344709406%0A` +
+    `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501`;
   return msg;
 }
 
@@ -678,31 +682,7 @@ async function sendWhatsAppBackend(orderData) {
   }
 }
 
-/**
- * Send real order confirmation email via Flask backend.
- * Calls POST /send-order-email with the full order payload.
- * Returns a Promise that resolves when done.
- */
-async function sendOrderEmail(orderData) {
-  try {
-    const response = await fetch(`${API_BASE}/send-order-email`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-    });
-    const result = await response.json();
-    if (result.success) {
-      console.log('✅ Order email sent successfully! Order ID:', orderData.orderId);
-      return true;
-    } else {
-      console.error('❌ Email server error:', result.error);
-      return false;
-    }
-  } catch (err) {
-    console.error('❌ Could not reach email server:', err.message);
-    return false;
-  }
-}
+// Email notifications removed — orders go to owner WhatsApp only.
 
 /** Place order - final step (calls real email API) */
 async function placeOrder() {
@@ -738,18 +718,14 @@ async function placeOrder() {
     total
   };
 
-  // --- Send REAL email via Flask backend ---
-  btn.querySelector('#placeOrderText').textContent = '📧 Sending email...';
-  const emailSent = await sendOrderEmail(orderData);
-
-  // --- Send WhatsApp DIRECTLY to owner via CallMeBot (no popup, no user action needed) ---
+  // --- Send WhatsApp DIRECTLY to owner via CallMeBot ---
   btn.querySelector('#placeOrderText').textContent = '📲 Sending WhatsApp to owner...';
   const waSent = await sendWhatsAppBackend(orderData);
 
   // --- Show confirmation screen regardless ---
   showStep(3);
   document.getElementById('orderId').textContent = orderId;
-  document.getElementById('confirmEmail').textContent = customerData.email;
+  document.getElementById('confirmEmail').textContent = customerData.phone;
 
   document.getElementById('confirmDetails').innerHTML = `
     <p>👤 <strong>${customerData.name}</strong></p>
@@ -795,21 +771,9 @@ async function placeOrder() {
     </tbody>
   `;
 
-  // Update email notice based on result
+  // Hide email notice (no longer used)
   const emailNotice = document.querySelector('.email-notice');
-  if (emailNotice) {
-    if (emailSent) {
-      emailNotice.style.background = 'rgba(46, 213, 115, 0.1)';
-      emailNotice.style.borderColor = 'rgba(46,213,115,0.3)';
-      emailNotice.style.color = '#1b7e3d';
-      emailNotice.innerHTML = `<span class="email-icon">📧</span><span>Order confirmation email sent to <strong>${customerData.email}</strong> ✅</span>`;
-    } else {
-      emailNotice.style.background = 'rgba(255,193,7,0.1)';
-      emailNotice.style.borderColor = 'rgba(255,193,7,0.4)';
-      emailNotice.style.color = '#856404';
-      emailNotice.innerHTML = `<span class="email-icon">⚠️</span><span>Email server offline. Start <code>app.py</code> to enable emails.</span>`;
-    }
-  }
+  if (emailNotice) emailNotice.style.display = 'none';
 
   // Wire up the manual WhatsApp button (fallback if auto-send failed)
   const waBtn = document.getElementById('manualWhatsappBtn');
@@ -837,11 +801,7 @@ async function placeOrder() {
   }
 
   // Show toast
-  if (emailSent) {
-    showToast('📧 Order email sent to your inbox!', 'success', 4000);
-  } else {
-    showToast('⚠️ Order saved! Run app.py to enable emails.', 'info', 5000);
-  }
+  showToast('📲 Order sent to owner on WhatsApp!', 'success', 4000);
 
   // Clear cart
   cart = [];
